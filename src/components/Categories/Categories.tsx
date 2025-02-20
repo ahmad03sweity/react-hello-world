@@ -1,8 +1,8 @@
-import { ICategory } from '../../types';
-import Category from '../Category/Category';
+import { useState } from 'react';
 import './categories.css';
+import Category from '../Category/Category';
 
-const data: ICategory[] = [
+const data: Store.ICategory[] = [
   {
     id: 'e1',
     title: "Automation Kits",
@@ -35,20 +35,32 @@ const data: ICategory[] = [
 ];
 
 const Categories = () => {
-  
-    return (
-        <div className="categories">
-            This is Categories
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores nemo saepe voluptas cupiditate cumque consectetur placeat temporibus ex.</p>
-            <div className="list">
-                {
-                    data.map(cat => 
-                        <Category key={cat.id} title={cat.title} image={cat.image} />
-                    )
-                }
-            </div>
-        </div>
-    );
-};
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  const handleVisit = (title: string) => {
+    setSelectedCategory(title);
+  };
+
+  return (
+    <div className="categories">
+      This is Categories
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores nemo saepe voluptas cupiditate cumque consectetur placeat temporibus ex eos. Aperiam vero saepe dignissimos magni ipsa! Quo dicta omnis deserunt esse.</p>
+      <div className="list">
+        {
+          data.map(cat => (
+            
+            <Category
+              key={cat.id}
+              title={cat.title}
+              image={cat.image}
+              onVisit={handleVisit}
+            />
+          ))
+        }
+      </div>
+      <h3>Selected Category: {selectedCategory}</h3>
+    </div>
+  );
+}
 
 export default Categories;
