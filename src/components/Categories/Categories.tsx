@@ -35,6 +35,7 @@ const data: ICategory[] = [
 ];
 
 const Categories = () => {
+  
     return (
         <div className="categories">
             This is Categories
