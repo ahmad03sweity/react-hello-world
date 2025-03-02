@@ -3,6 +3,7 @@ import Header from './components/Header/Header';
 import Categories from './components/Categories/Categories';
 import ProductsList from './components/products-list/ProductsList';
 import { useState } from 'react';
+import WishList from './components/wish-list/WishList';
 
 const PRODUCTS_LIST: Store.IProduct[] = [
   {
@@ -99,42 +100,39 @@ const PRODUCTS_LIST: Store.IProduct[] = [
 
 function App() {
   const [pList, setPList] = useState(PRODUCTS_LIST);
-  const [wishList, setWishList] = useState<Store.IProduct[]>([]);
+  const [wishList, setWishList] = useState<Array<number>>([]);
 
   const handleAddToWishList = (id: number) => {
-    const newPList = pList.map((prod) =>
-      prod.id === id ? { ...prod, wishListCounter: prod.wishListCounter + 1 } : prod
-    );
+    const newPList = pList.map(prod => prod.id !== id ? prod : { ...prod, wishListCounter: prod.wishListCounter + 1 });
     setPList(newPList);
+    setWishList(Array.from(new Set([...wishList, id])));
+  }
 
-    const product = pList.find((prod) => prod.id === id);
-    if (product && !wishList.some((item) => item.id === id)) {
-      setWishList([...wishList, product]); 
-    }
-  };
-  const handleDeleteProduct = (index: number) => {
-    const newPList = pList.filter((_, i) => i !== index); 
-    setPList(newPList);
-  };
+  const handleRemoveFromWishList = (id: number) => {
+    setWishList(old => old.filter(item => item !== id));
+  }
+
+  const handleDelete = (index: number) => {
+    // setPList([...pList].splice(index, 1));
+    setPList(pList.filter((_, i) => i !== index));
+  }
 
   return (
     <div>
       <Header productsCount={pList.length} />
       <Categories />
-      <ProductsList data={pList} onWish={handleAddToWishList} onDelete={handleDeleteProduct}/>
-      <div className="wishlist">
-          <h2>Wishlist ❤️</h2>
-          {wishList.length === 0 ? (
-            <p>No items in wishlist</p>
-          ) : (
-            wishList.map((product) => (
-              <div key={product.id} className="wishlist-item">
-                <img src={product.imageURL} alt={product.name} width={50} height={50} />
-                <p>{product.name}</p>
-              </div>
-            ))
-          )}
-        </div>
+      <hr />
+      <WishList
+        wishList={wishList}
+        productList={pList}
+        onRemove={handleRemoveFromWishList}
+      />
+      <ProductsList
+        data={pList}
+        wishList={wishList}
+        onWish={handleAddToWishList}
+        onDelete={handleDelete}
+      />
     </div>
   )
 }

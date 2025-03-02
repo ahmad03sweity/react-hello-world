@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   flex-basis: 24%;
-  border: 2px solid #ff6f61;
+  border: 2px solid #e2e2fa;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
@@ -69,6 +69,7 @@ p {
   font-size: 1rem;
   padding: 8px;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  filter: grayscale(1);
 }
 
 .product .actions button:first-of-type {
@@ -82,4 +83,10 @@ p {
 .product .actions button:hover {
   background-color: rgba(0, 0, 0, 0.05);
   transform: scale(1.05);
+}
+
+button.wish-button.wishList {
+  filter: none;
+  pointer-events: none;
+  user-select: none;
 }
