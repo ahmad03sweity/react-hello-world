@@ -10,9 +10,7 @@
   overflow: hidden;
   transition: height 0.3s ease-in-out;
 }
-span{
-  color: red;
-}
+
 .container.visible {
   height: 590px;
 }
@@ -83,4 +81,9 @@ span{
 
 .button:hover {
   background-color: #5750d4;
+}
+
+.error {
+  font-size: 10px;
+  color: firebrick;
 }
